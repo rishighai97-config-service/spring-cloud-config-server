@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: git,mongodb # these map to reporistory used to fetch properties
+  data:
+    mongodb:
+      database: config_server # name of db could be anything
+      uri: mongodb+srv://admin:admin@rishighai97-mongo-m0-te.37nwh.mongodb.net/?retryWrites=true&w=majority&appName=rishighai97-mongo-m0-test-cluster
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/rishighai97-config-service/{application} # application placeholder to be passed in request by clients
+          order: 1 # define order in case of multiple repositiories
+        mongodb:
+          collection: properties # default value = properties
+          defaultLabel: main # default value = master
+          order: 2
+        health:
+          repositories:
+            myapp:
+              label: main # healthcheck for repositories
+
+server:
+  port: 8888
